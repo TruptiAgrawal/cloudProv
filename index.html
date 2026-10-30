@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudManager – Resource Provisioning & Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 9.5a4.2 4.2 0 0 1-.5 8.5z"/></svg>
+      </span>
+      <div>
+        <h1>CloudManager</h1>
+        <p>Resource Provisioning &amp; Management</p>
+      </div>
+    </div>
+    <span class="demo-badge">Demo mode</span>
+  </header>
+
+  <main class="layout">
+    <!-- Flow pipeline -->
+    <section class="panel flow" aria-labelledby="flow-title">
+      <h2 id="flow-title" class="sr-only">How an action flows through CloudManager</h2>
+      <ol class="pipeline" id="pipeline">
+        <li data-stage="0"><span class="node"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><b>User</b><small>Selects a resource and action</small></li>
+        <li data-stage="1"><span class="node"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><b>Dashboard</b><small>Displays resources and status</small></li>
+        <li data-stage="2"><span class="node"><svg viewBox="0 0 24 24"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="16" cy="8" r="2"/><circle cx="8" cy="16" r="2"/></svg></span><b>Management logic</b><small>Provision · Start · Stop · Delete</small></li>
+        <li data-stage="3"><span class="node"><svg viewBox="0 0 24 24"><path d="M6 20V10M12 20V4M18 20v-7"/></svg></span><b>Updated dashboard</b><small>Count, status and estimated cost</small></li>
+      </ol>
+      <p class="flow-log" id="flowLog" aria-live="polite">Ready. Pick an action to watch it travel through the system.</p>
+    </section>
+
+    <!-- Overview + provision -->
+    <aside class="side">
+      <section class="panel cost" aria-labelledby="cost-label">
+        <p id="cost-label" class="muted">Estimated monthly cost</p>
+        <p class="cost-value" id="cost">₹0</p>
+        <p class="muted small">Illustrative cost, not actual cloud billing.</p>
+        <div class="stats">
+          <div class="stat"><span id="statTotal">0</span><small>Total</small></div>
+          <div class="stat run"><span id="statRun">0</span><small>Running</small></div>
+          <div class="stat stop"><span id="statStop">0</span><small>Stopped</small></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="prov-title">
+        <h2 id="prov-title">Provision a resource</h2>
+        <form id="form" novalidate>
+          <label for="name">Resource name</label>
+          <input id="name" name="name" type="text" maxlength="28" placeholder="e.g. App Server" autocomplete="off">
+          <p class="error" id="nameError" role="alert" hidden>Enter a name for the resource.</p>
+
+          <fieldset>
+            <legend>Resource type</legend>
+            <div class="seg" id="typeSeg"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Size</legend>
+            <div class="seg sizes" id="sizeSeg"></div>
+          </fieldset>
+
+          <button type="submit" class="primary">Provision resource</button>
+        </form>
+      </section>
+    </aside>
+
+    <!-- Resource list -->
+    <section class="panel list" aria-labelledby="list-title">
+      <div class="list-head">
+        <h2 id="list-title">My resources</h2>
+        <span class="muted small" id="countLabel"></span>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Filter resources">
+        <button role="tab" class="tab active" data-filter="all" aria-selected="true">All</button>
+        <button role="tab" class="tab" data-filter="running" aria-selected="false">Running</button>
+        <button role="tab" class="tab" data-filter="stopped" aria-selected="false">Stopped</button>
+      </div>
+      <ul class="cards" id="cards"></ul>
+      <p class="empty" id="empty" hidden>No resources here yet. Provision one to get started.</p>
+      <p class="footnote">Demo only: changes are saved in this browser. No real cloud infrastructure is created or billed.</p>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
